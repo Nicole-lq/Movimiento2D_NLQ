@@ -130,7 +130,7 @@ air_impt$Dia<-factor(air_impt$Dia)
 str(air_impt)
 ```
 
-## Visualiación gráfica de los tipos de datos
+## Visualización gráfica de los tipos de datos
 
 ```{r, fig.width = 5, fig.height = 3}
 visdat::vis_dat(air_impt,sort_type = TRUE) 
