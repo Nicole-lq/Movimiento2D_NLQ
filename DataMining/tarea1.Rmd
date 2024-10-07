@@ -1,5 +1,6 @@
 ---
-title: 'Tarea1: Análisis de Datos de Calidad del Aire'
+title: '**Air Quality Data Analysis: A comprehensive examination**'
+author: '_Nicole Lastra Quiroz_'
 output:
   html_document:
     air_print: paged
@@ -7,19 +8,15 @@ output:
   pdf_document: default
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 ```
 
-# Pasos iniciales: Instalación de paquetes y carga de librerías
+# Packages and libraries
 
-Se procede con la instalación de paquetes y librerías que serán necesarias para el desarrollo de este trabajo, usando el comando:
+We proceed with the installation of packages and libraries necessary for this work, using the following command: `install.packages(c("mice", "factoextra", "gridExtra"))`,considering that  `mice` will be used for handling data imputation, `factoextra` for factor analysis, and `gridExtra` for graphical layout.
 
-`install.packages(c("mice", "factoextra", "gridExtra"))`
-
-Considerando que `mice` será utilizada para la imputación de datos, `factoextra` para análisis factoriales, y `gridExtra` para la disposición gráfica.
-
-Luego se añaden a la carga de las librerías a usar en el código:
+Then, the following libraries are loaded:
 
 ```{r}
 library("mice")
@@ -38,113 +35,117 @@ library("PerformanceAnalytics")
 library("corrplot")
 ```
 
-# Carga de archivo y guardado en dataframe
+# Data loading
 
-Se inicia el trabajo de análisis de datos mediante la carga del archivo CSV, el cual se almacena en un dataframe llamado `air`, utilizando la función `read.csv()`. 
+We begin the data analysis by loading the CSV file, which is stored in a dataframe named `air`, using the `read.csv()` function. With this, we can observe the basic structure of the dataframe, including the column names and a few sample data rows. 
 
 ```{r}
-air <- read.csv("/Users/nicolelastraquiroz/Documents/R studio/airq_dt.csv", header = T, sep = ",", dec = "." )
+air <- read.csv("/Users/nicolelastraquiroz/Documents/R studio/airq_dt.csv", header = T,
+                     sep    = ",", 
+                     dec    = "." )
 head(air)
 ```
 
-Con esto ya se pueden apreciar algunas partes de la estructura básica del dataframe, como nombres de columnas y algunas filas de datos, sin embargo, en la busqueda de lo específico y prolijo, a continuación se procederá a hacer un análisis con más detalle.
-
-## Análisis de la estructura del data frame
+## Dataframe structure analysis
 
 ```{r}
 dim(air)
 str(air)
 ```
 
-En general, se puede observar que el dataframe air contiene 100 observaciones (filas), correspondientes a 6 variables (columnas) del tipo numéricas (5 int y 1 num para ser específicos).
+In general, the `air` dataframe contains 100 observations (rows) and 6 numeric variables (colums). This variables (5 integers and 1 numeric) are related to air quality measurements:
 
-# Estudio de valores faltantes
+* `Ozono` variable represents the **concentration of ozone ($O_3$)** in the atmosphere, measured in parts per billion (ppb), which is crucial for assessing air quality and its impact on health and the environment. 
 
-Es importante destacar que la presencia de NA pueden interferir con los análisis posteriores, por lo que no se pueden dejar de considerar al momento de realizar estudios y observaciones primarias del dataframe, de ahí la importancia de generar imputaciones coherentes y adecuadas al set de datos trabajado.
+* `RadSol` indicates the **solar radiation received**, typically measured in watts per square meter ($W/m^2$), which plays a significant role in determining atmospheric conditions. 
 
-En este caso, si bien ya se veían valores faltantes (NA) en la revisión anterior del dataframe, ahora se utilizará `summary()` para obtener un conteo rápido y verificar si hay valores nulos en el dataset (considerando que inicialmente se toman las 6 variables como numéricas, tal y como se pudo ver en la revisión anterior).
+* `Vient` variable refers to **wind speed**, measured in kilometers per hour (km/h), reflecting how air movement affects pollutant dispersion. 
+
+* `Temp` denotes the **ambient temperature in degrees Celsius (°C)**, which can influence chemical reactions in the atmosphere and, consequently, air quality. 
+
+* `Mes` and `Dia` represent the **month** and **day**, respectively, providing temporal context for the observations recorded in the dataset.
+
+# Missing data study
+
+It is important to note that the presence of NA (missing values) can interfere with subsequent analyses, so they must be considered when performing primary studies and observations of the dataframe. Hence, it is essential to generate appropriate imputations for the dataset being worked on.
+
+In this case, although missing values (NA) were already visible in the earlier review of the dataframe, now we use `summary()` to get a quick count and check if there are null values in the dataset (initially considering that all 6 variables are numeric, as seen in the earlier review).
 
 ```{r}
 summary(air)
 ```
 
-Como complemento a esto, y considerando otras formas que también vimos en clases, se añade una revisión detallada usando el conteo por columna de los NA con `colSums(is.na())`.
+As a complement to this, and considering other methods, we add a detailed review using column-wise NA counts with `colSums(is.na())`.
  
 ```{r}
 colSums(is.na(air))
 ```
 
-Y también una visualización gráfica de los valores nulos con `visdat::vis_miss()`.
+Also, a graphical visualization of the missing values using `visdat::vis_miss()`.
 
 ```{r}
 visdat::vis_miss(air) 
 ```
 
-De los 3 métodos expuestos, se puede afirmar que sí existen columnas con datos NA, estas son: `Ozono` y `RadSol`, con 18 y 4 valores faltantes respectivamente, lo que hace un total de un 3.7% de datos faltantes versus un 96,3% de datos válidos.
+From the three methods, it is confirmed that there are columns with NA values, specifically: `Ozono` and `RadSol`, with 18 and 4 missing values, respectively, accounting for a total of 3.7% missing data versus 96.3% valid data.
 
-# Imputación de valores faltantes
+# Imputation of missing values
 
-Los valores faltantes se podrían imputar usando la media de cada variable, ya que esta es una estrategia simple y efectiva cuando el porcentaje de datos faltantes es bajo, como en este caso, sin embargo, y considerando aplicar al máximo lo visto en clases, utilizaremos la librería `mice`: *Multivariable Imputation by Chained Equations*, que ofrece un método destacado y altamente efectivo para la mayoría de los casso a imputar.
+The missing values could be imputed using the mean of each variable, as this is a simple and effective strategy when the percentage of missing data is low, as in this case. However, we will use the `mice` package (*Multivariable Imputation by Chained Equations*), which offers a reliable and robust method for most cases of data imputation.
 
 ```{r}
 imp_dt <- mice(air, m = 1, seed = 100)
 air_impt <- complete(imp_dt, 1)
 ```
 
-El resultado de la imputación fue almacenado en un nuevo dataframe denominado `air_impt`. 
+The imputation result was stored in a new dataframe called `air_impt`.
 
-# Verificación de valores faltantes
+# Verification of missing values
 
-Para descartar cualquier posible error humano en el proceso de imputación (error de código, mal guardado de los datos imputados, entre otros), se revisará nuevamente la presencia de NA en la data y se generará una breve comparativa.
+To rule out any potential human error in the imputation process (code errors, incorrectly saved imputed data, etc.), we will check again for NA values.
 
 ```{r}
 colSums(is.na(air_impt))
 ```
 
-**Antes de la imputación:**
-```{r}
-str(air)
-```
-
-**Después de la imputación:**
 ```{r}
 str(air_impt)
 ```
 
-En síntesis, se confirma que no existen datos faltantes posterior al proeso de imputación, por lo que hora se podrá implementar el resto de los análisis requeridos.
+In summary, it is confirmed that there are no missing values after the imputation process, so we can proceed with the next steps.
 
-# Diagnóstico completo de las variables categóricas.
+# Full diagnosis of categorical variables
 
-Aunque el dataset parece contener principalmente variables numéricas, Mes y Día pueden tratarse como variables categóricas dado su contexto, debido a esto, en este caso primero las transformaremos a categorías, y luego las analizaremos como tal. 
+Although the dataset appears to contain mainly numeric variables, `Mes`(month) and `Dia` (day) can be treated as categorical variables due to their context. Therefore, in this case, we will first transform them into categories and then analyze them accordingly.
 
-## Transformación de las variables Mes y Dia a categóricas.
+## Transformation of month and day variables into categories
 
 ```{r}
 air_impt$Mes<-factor(air_impt$Mes)
 air_impt$Dia<-factor(air_impt$Dia)
 ```
 
-## Revisión de la transformación
+## Review of the transformation
 
 ```{r}
 str(air_impt)
 ```
 
-## Visualización gráfica de los tipos de datos
+## Graphical visualization of data types
 
-```{r, fig.width = 5, fig.height = 3}
+```{r, fig.width = 6, fig.height = 4}
 visdat::vis_dat(air_impt,sort_type = TRUE) 
 ```
 
-## Análisis de las variables categóricas
+## Categorical variables analysis
 
 ```{r}
 ft1 <- flextable(diagnose_category(air_impt))
-ft1 <- set_caption(ft1, caption = "Detalle de variables categóricas")
+ft1 <- set_caption(ft1, caption = "Details of categorical variables in the dataset")
 ft1
 ```
 
-# Estudio de normalidad en variables cuantitativas
+# Normality study of quantitative variables
 
 ```{r}
 
@@ -153,11 +154,12 @@ summary(numeric_vars)
 
 ```
 
-## Análisis por método gráfico
+# Graphical method analysis
 
-### Histograma de frecuencias con abline de media y mediana
+## Frequency histograms with mean and median lines
 
-Para analizar las variables numéricas (Ozono, RadSol, Vient, Temp), se utilizarán histogramas. Éstos ayudan a visualizar la distribución de los datos y permiten, desde lo visual, identificar si las variables siguen una distribución simétrica o están sesgadas.
+To analyze the numeric variables: `Ozono`, `RadSol`, `Vient`, `Temp`, histograms will be used. These help visualize the distribution of the data and allow us to identify whether the variables follow a symmetrical distribution or are skewed.
+
 
 ```{r}
 plots <- list()
@@ -165,34 +167,32 @@ plots <- list()
 for (col in colnames(numeric_vars)) {
   mean_val <- mean(numeric_vars[[col]], na.rm = TRUE)
   median_val <- median(numeric_vars[[col]], na.rm = TRUE)
-  
+
   p <- ggplot(numeric_vars, aes_string(x = col)) + 
         geom_histogram(binwidth = 10, fill = "pink", color = "black") +
         geom_vline(xintercept = mean_val, color = "blue", linetype = "dashed", size = 1) +
         geom_vline(xintercept = median_val, color = "magenta", linetype = "dashed", size = 1) +
-        ggtitle(paste("Histograma de", col))
-  
+        ggtitle(paste(col, "histogram"))
   plots[[col]] <- p
 }
 
 n_col <- 2
-
 do.call("grid.arrange", c(plots, ncol = n_col))
-
 ```
 
-Además, se añadieron líneas verticales que indican la media (en azul) y la mediana (en magenta) para cada variable, lo que facilita la comparación entre ambas medidas y ayuda a identificar la presencia de asimetría. Se debe destacar, que si la media y la mediana están muy alejadas, es probable que la distribución sea asimétrica, como son el caso de la variables `Ozono` y `RadSol`.
+Vertical lines indicating the mean (blue) and median (magenta) were added to each variable, making it easier to compare both measures and identify asymmetry. If the mean and median are far apart, it is likely that the distribution is skewed, as seen with the variables `Ozono` and `RadSol`.
 
-### Grafico de distribución de probabilidad normal
 
-Primero usamos los recursos auxiliares aprendidos en clases para generar las tablas de frecuencias:
+### Normal probability distribution graph
+
+We first utilized auxiliary resources to generate frequency tables:
 
 ```{r}
 tb.freq <- function(x){
-  f_i <- as.vector(table(x)) # freq absoluta
-  F_i <- cumsum(f_i) # freq acumulada
-  h_i <- f_i / length(x) # freq relativa
-  H_i <- F_i / length(x) # freq relativa acumulada
+  f_i <- as.vector(table(x)) # absolute frequency
+  F_i <- cumsum(f_i) # cumulative frequency
+  h_i <- f_i / length(x) # relative frequency
+  H_i <- F_i / length(x) # cumulative relative frequency
   tf <- cbind(f_i, F_i, h_i, H_i)
   row.names(tf) <- names(table(x))
   tf
@@ -200,36 +200,38 @@ tb.freq <- function(x){
 
 ```
 
-Luego, con la función ya creada, generamos las tablas de frecuencias usando sturges. También se definirán los intervalos, se generarán los cortes y agrupaciones y finalmente se visualizarán las tablas.
+Then, using the created function, we generated the frequency tables based on Sturges’ rule. Additionally, intervals were defined, data cuts and groupings were generated, and the frequency tables were visualized.
 
 ```{r}
-# Tablas de distribución de frecuencias 
+# Frequency distribution tables
 for (var_name in colnames(numeric_vars)) {
-  print(paste("Tabla de distribución de frecuencias para:", var_name))
+  print(paste("Frequency distribution table for:", var_name))
   tabla <- fdt(numeric_vars[[var_name]], breaks = "Sturges")
   print(tabla)
   
-  # Calculo del intervalo
-  intervalo <- (max(numeric_vars[[var_name]]) - min(numeric_vars[[var_name]])) / (1 + 3.322 * log10(nrow(numeric_vars)))
-  print(paste("Intervalo calculado para", var_name, ":", intervalo))
+  # Interval calculation
+  interval <- (max(numeric_vars[[var_name]]) - min(numeric_vars[[var_name]])) / (1 + 3.322 * log10(nrow(numeric_vars)))
+  print(paste("Calculated interval for", var_name, ":", interval))
   
-  # Cortes y agrupación de los datos
-  cut_var <- cut(numeric_vars[[var_name]], breaks = seq(min(numeric_vars[[var_name]]), max(numeric_vars[[var_name]]), by = intervalo))
+  # Data cuts and grouping
+  cut_var <- cut(numeric_vars[[var_name]], breaks = seq(min(numeric_vars[[var_name]]), max(numeric_vars[[var_name]]), by = interval))
   numeric_vars[[paste(var_name, "cut", sep = ".")]] <- cut_var
 
-  # Tabla de frecuencias
+  # Frequency table
   print(tb.freq(cut_var))
 }
 ```
 
-Finalmente se procederá con la genración de los gráficos de densidad normal y de probabilidad acumulada normal, para cada una de las variables numéricas.
+Next, we generated normal density and cumulative probability graphs for each of the numeric variables.
 
 ```{r, fig.width = 6, fig.height = 10}
 
 par(mfrow = c(4, 2))
+
 for (var_name in colnames(numeric_vars)[1:4]) {
   
-# Gráfico de densidad vs distribución normal
+# Density vs normal distribution graph
+  
   plot(numeric_vars[[var_name]], 
        dnorm(numeric_vars[[var_name]], 
              mean = mean(numeric_vars[[var_name]],
@@ -237,47 +239,47 @@ for (var_name in colnames(numeric_vars)[1:4]) {
              sd = sd(numeric_vars[[var_name]],
                      na.rm = TRUE)),
        ylab = "",xlab = var_name, 
-       lwd = 2, col = "pink", main = paste("Densidad normal: ", var_name))
+       lwd = 2, col = "pink", main = paste("Normal density: ", var_name))
   
-# Gráfico de probabilidad acumulada vs distribución normal
+# Cumulative probability vs normal distribution graph
+  
   plot(numeric_vars[[var_name]], 
        pnorm(numeric_vars[[var_name]], 
-             mean = mean(numeric_vars[[var_name]],
-                         na.rm = TRUE), 
-             sd = sd(numeric_vars[[var_name]],
-                     na.rm = TRUE)),
-       xlab = var_name, ylab = "", 
-       lwd = 2, col = "pink", 
-       main = paste("P(x) acumulada normal: ",
-                    var_name))
+             mean = mean(numeric_vars[[var_name]],na.rm = TRUE), 
+             sd = sd(numeric_vars[[var_name]],na.rm = TRUE)),
+       xlab = var_name, 
+       ylab = "", 
+       lwd  = 2, 
+       col  = "pink", 
+       main = paste("Cumulative normal P(x): ", var_name))
   
-# Media y mediana como líneas verticales
-  abline(v = mean(numeric_vars[[var_name]], 
-                  na.rm = TRUE), col = "magenta")
-  abline(v = median(numeric_vars[[var_name]], 
-                    na.rm = TRUE), col = "blue")
+# Mean and median as vertical lines
+  
+  abline(v = mean(numeric_vars[[var_name]], na.rm = TRUE), 
+         col = "magenta")
+  abline(v = median(numeric_vars[[var_name]], na.rm = TRUE), 
+         col = "blue")
+  
 }
 
 ```
 
+## Mathematical Analysis
 
-## Análisis por método matemático:
+In addition to the graphical analysis, a mathematical approach is applied, defining hypotheses, and calculating `skewness` and `kurtosis` for each variable.
 
-A continuación, se complementa el análisis gráfico con un enfoque matemático, para lo cual se definirán las hipótesis, se calculará la asimetría (`skewness`) y la curtosis (`kurtosis`) de cada variable.
+### Hypothesis Formulation
 
-### Formulación de hipótesis
+We define the following hypotheses:
 
-Primero se establece las respectivas hipótesis del caso: 
+* $H_0:$ The variable is normally distributed.
+* $H_1:$ The variable is not normally distributed.
 
-* $H_0:$ La variable está distribuida normalmente.
+A significance level of 0.05 is applied. If the p-value is greater than this threshold, we fail to reject the null hypothesis, implying that the variable may follow a normal distribution.
 
-* $H_1:$ La variable no está distribuida normalmente.
+### Shapiro-Wilk Test
 
-Se considera una significancia del 0.05, lo que implica que si el valor p es mayor a este valor, no se rechazará la hipótesis nula y, por lo tanto, se puedodría afirmar que la variable está distribuida normalmente.
-
-### Test de Shapiro-Wilk
-
-se realiza la prueba de Shapiro-Wilk para evaluar la normalidad de cada variable. Esta prueba es estadísticamente robusta para tamaños de muestra pequeños, como es este caso. 
+The Shapiro-Wilk test, which is robust for small sample sizes, is performed to assess normality.
 
 ```{r}
 
@@ -289,18 +291,18 @@ for (col in colnames(air_impt)[1:4]) {
 ```
 
 
-### Resumen de normalidad para las variabes numéricas
+### Normality summary for numerical variables
 
 ```{r}
 ft2 <- flextable(normality(numeric_vars))
-ft2 <- set_caption(ft2, caption = "Tabla de Normalidad por variables")
+ft2 <- set_caption(ft2, caption = "Normality table by variables")
 
 ft2
 ```
 
-### Cesgo
+### Skewness
 
-Se debe tener en cuenta que `skewness` mide la simetría de la distribución. Los valores cercanos a 0 indicarán que la distribución de los datos es bastante simétrica.
+`Skewness` measures the symmetry of the distribution. Values close to 0 indicate that the data distribution is relatively symmetrical.
 
 ```{r}
 
@@ -310,13 +312,11 @@ for (col in colnames(air)[1:4]) {
 }
 ```
 
-Ozono es la variable que mas presenta cesgo, considerando que posee un Skewness del orden de 1.26 aproximadamente. Las otras variables presentan cesgos bajos y en un orden parecido (al rededor del 0.3), sólo que para Vient es del tipo positivo y para RadSol y Temp es negativo.
+The variable `Ozone` shows the highest skewness (around 1.26), while the other variables display low skewness values (approximately 0.3). `Vient` has positive skewness, whereas `RadSol` and `Temp` exhibit negative skewness.
 
-### Curtosis
+### Kurtosis
 
-La curtosis mide la "altura" y "anchura" de las colas de la distribución. Una curtosis positiva indica colas más pesadas que las de una distribución normal, mientras que una curtosis negativa indica colas más ligeras que las de una distribución normal.
-
-**Aquí falta añadir algo de datos bibliográficos que tengan cita en APA para decir los tipos de de curtosis si es menor a cero igual o mayor... onda platicurtica, mesocurtica y leptocurtica**
+`Kurtosis` assesses the "height" and "width" of the tails of the distribution. Positive kurtosis indicates heavier tails than a normal distribution, while negative kurtosis indicates lighter tails.
 
 ```{r}
 
@@ -326,36 +326,61 @@ for (col in colnames(air_impt)[1:4]) {
 }
 ```
 
-Se observan tendencias platicurticas en las variables RadSol, Vient y Temp, siendo la primera la que posee una tendencia más marcada que las otras, mientras que en el caso de Ozono su tendencia es del tipo leptocurtica. 
+The variables `RadSol`, `Vient`, and `Temp` display platykurtic tendencies, with `RadSol` showing the most pronounced trend. On the other hand, `Ozone` exhibits leptokurtic behavior.
 
-# Estudio de valores atípicos (outliers)
+# Outlier analysis
 
-Los boxplots permiten identificar valores atípicos (outliers) que se representan como puntos fuera de los "bigotes" del gráfico.
+Boxplots allow for the identification of outliers, represented as points outside the "whiskers" of the graph.
 
 ```{r, fig.width = 6, fig.height = 4}
 
 par(mfrow = c(2, 2))
-boxplot(air_impt$Ozono, main = "Boxplot de Ozono", col = "lightblue", horizontal = TRUE)
-boxplot(air_impt$RadSol, main = "Boxplot de RadSol", col = "lightpink", horizontal = TRUE)
-boxplot(air_impt$Vient, main = "Boxplot de Viento", col = "lightgrey", horizontal = TRUE)
-boxplot(air_impt$Temp, main = "Boxplot de Temperatura", col = "lightyellow", horizontal = TRUE)
+
+boxplot(air_impt$Ozono,  main       = "Ozone boxplot", 
+                         col        = "lightblue", 
+                         horizontal = TRUE
+                         )
+
+boxplot(air_impt$RadSol, main       = "Sun radiation boxplot", 
+                         col        = "lightpink",
+                         horizontal = TRUE
+                         )
+
+boxplot(air_impt$Vient,  main       = "Wind boxplot", 
+                         col        = "lightgrey", 
+                         horizontal = TRUE
+                         )
+
+boxplot(air_impt$Temp,   main       = "Temperature boxplot", 
+                         col        = "lightyellow", 
+                         horizontal = TRUE
+                         )
+
 ```
 
-Mediante los diagramas "boxplot" se puede evidenciar visualmente la existencia de "outliers" en las variables Ozono y viento, pero para un estudio preciso, revisaremos el detalle de estos valores atípicos con la función `flextable(diagnose_outlier())`, como se muestra a continuación:
+Through these boxplots, we visually identify outliers in `Ozone` and `Wind`. To analyze these outliers in detail, we use the `flextable(diagnose_outlier())` function:
 
 ```{r}
 ft3 <- flextable::flextable(diagnose_outlier(air_impt))
 ft3 <- set_table_properties(ft3, width = 0.75, layout = "autofit")
 ft3 <- align(ft3, align = "center", part = "all")
-ft3 <- set_caption(ft3, caption = "Detalles de valores atípicos en las variables")
+ft3 <- set_caption(ft3, caption = "Outlier details by variables")
 
 ft3
 ```
 
-Ahora se cuenta con una mayor cantidad de información concreta respecto a estos valores atípicos, considerando por ejemplo el número y la media de éstos: 
+The outlier analysis provides critical information, including the number and mean values of the outliers:
 
-* Ozono: 1 valor atípico con una media de 168
-* Vient: 2 valores atípicos con una media de 20.4
+* Ozone: 1 outlier with a mean of 168.
+* Wind : 2 outliers with a mean of 20.4.
 
-Este tipo de información es altamente importante para una posterior toma de decisiones respecto a si eliminar o no estos valores, entre otras posibles acciones a realizar.
+This data is essential for making informed decisions regarding the treatment of these outliers, such as whether to remove them or implement other adjustments.
 
+# Conclusions
+
+The dataset had a low percentage of missing values (3.7%), primarily in the `Ozono` and `RadSol` variables, which were effectively imputed using the mice package. The transformation of the month and day variables into categorical types confirmed their suitability for analysis, with no unexpected distribution patterns. 
+The Shapiro-Wilk test and histogram analysis showed significant deviations from normality in variables like `Ozono` and `RadSol`, with Ozone having the highest skewness (1.26), suggesting the need for transformations or non-parametric modeling. Visualizations supported these findings, highlighting the potential impact of extreme events on air quality metrics.
+
+# Future Work
+
+Given the skewed distribution of certain variables, applying transformations (e.g., logarithmic or square root) to these variables may improve the results of further statistical or machine learning models. Additional analyses, such as multivariate relationships between variables, could provide deeper insights into the factors driving variations in air quality metrics.
