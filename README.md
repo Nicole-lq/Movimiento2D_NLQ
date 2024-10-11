@@ -17,7 +17,7 @@ Este proyecto se centra en el analisis del registro audiovisual experimental, el
 
 - **Python**
 - **Visual Studio Code**
-- **Bibliotecas de Python**: `Matplotlib`, `Numpy`, `Pandas`, `SciPy`, `Scikit-learn`
+- **Bibliotecas de Python**: ´Matplotlib´, ´Numpy´, ´Pandas´, ´SciPy´, ´Scikit-learn´
 - **GitHub Repository**: [2DMotion_NLQ](https://github.com/Nicole-lq/2DMotion_NLQ)
 
 
