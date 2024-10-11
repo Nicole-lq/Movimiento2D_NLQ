@@ -8,6 +8,9 @@
 
 </div>
 
+<div>
+<p style="text-align: justify;">
+  
 ## Resumen
 
 Este proyecto se centra en el analisis del registro audiovisual experimental, el cual presenta la velocidad y tiempo instantáneo de un motociclista miemtras circula por una carretera. El proceso se realiza mediante la **captura automatizada de cuadros** cada dos segundos, en un rango de 9 [s] a 133 [s] (ambos inclusive), utilizando Python en Visual Studio Code, mientras que el estudio se lleva a cabo dividiendo los datos en diez intervalos de tiempo, realizando ajustes lineales mediante el método de los mínimos cuadrados, calculando la velocidad media para cada intervalo, y aproximando el área bajo la curva utilizando el método de los trapecios mediante la función `trapz`. Los resultados indican un recorrido total de 2355.9 metros, con un patrón cíclico de un intervalo de tiempo por medio, en el que su aceleración pasaba de ser aproximadamente constante, a cero.
@@ -44,6 +47,9 @@ El análisis de gráficos incluye:
 * Gráficos de dispersión de los datos de velocidad y tiempo.
 * Ajuste lineal por intervalos utilizando el método de los mínimos cuadrados.
 * Cálculo de áreas bajo la curva con el método del trapecio utilizando la función trapz.
+  
+</p>
+</div>
 
 ## Visualizaciones
 
@@ -72,8 +78,9 @@ Se presentan algunas de las gráficas obtenidas, así como la tabla final de los
 
 </div>
 
-
-
+<div>
+<p style="text-align: justify;">
+  
 ## Resultados Principales
 
 * El motociclista recorrió un total de 2355.9 metros.
@@ -92,3 +99,5 @@ La utilización de Python demostró ser práctica y eficiente para este proyecto
 * Gonzáles, J. Guía experimental. Universidad Andrés Bello, Santiago, Chile.
 * VanderPlas, J. (2016). Python data science handbook: Essential tools for working with data. " O'Reilly Media, Inc.".
 
+</p>
+</div>
