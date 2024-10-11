@@ -9,15 +9,13 @@
 
 ## Resumen
 
-Este proyecto se centra en el analisis de registro audiovisual experimental, el cual presenta la velocidad y tiempo instantáneo de un motociclista. Esto se realiza mediante la **captura automatizada de cuadros** cada dos segundos, en un rango de 9 [s] a 133 [s] (ambos inclusive), utilizando Python en Visual Studio Code. 
-
-El estudio se lleva a cabo dividiendo los datos en diez intervalos de tiempo, realizando ajustes lineales mediante el método de los mínimos cuadrados, calculando la velocidad media para cada intervalo, y aproximando el área bajo la curva utilizando el método de los trapecios mediante la función `trapz`. Los resultados indican un recorrido total de 2355.9 metros, con un patrón cíclico de un intervalo de tiempo por medio, en el que su aceleración pasaba de ser aproximadamente constante, a cero.
+Este proyecto se centra en el analisis del registro audiovisual experimental, el cual presenta la velocidad y tiempo instantáneo de un motociclista miemtras circula por una carretera. El proceso se realiza mediante la **captura automatizada de cuadros** cada dos segundos, en un rango de 9 [s] a 133 [s] (ambos inclusive), utilizando Python en Visual Studio Code, mientras que el estudio se lleva a cabo dividiendo los datos en diez intervalos de tiempo, realizando ajustes lineales mediante el método de los mínimos cuadrados, calculando la velocidad media para cada intervalo, y aproximando el área bajo la curva utilizando el método de los trapecios mediante la función `trapz`. Los resultados indican un recorrido total de 2355.9 metros, con un patrón cíclico de un intervalo de tiempo por medio, en el que su aceleración pasaba de ser aproximadamente constante, a cero.
 
 ## Tecnologías Utilizadas
 
 - **Python**
 - **Visual Studio Code**
-- **Bibliotecas de Python**: `matplotlib`, `numpy`, `pandas`
+- **Bibliotecas de Python**: `Matplotlib`, `Numpy`, `Pandas`, `SciPy`, `Scikit-learn`
 - **GitHub Repository**: [2DMotion_NLQ](https://github.com/Nicole-lq/2DMotion_NLQ)
 
 ## Instrucciones para Clonar el Repositorio
@@ -73,5 +71,4 @@ La utilización de Python demostró ser práctica y eficiente para este proyecto
 ## Referencias
 
 * Gonzáles, J. Guía experimental. Universidad Andrés Bello, Santiago, Chile.
-* Gonzáles, J. Análisis gráfico. Universidad Andrés Bello, Santiago, Chile.
-* Lastra, N. 2DMotion_NLQ (Version 1.0.0)
+* VanderPlas, J. (2016). Python data science handbook: Essential tools for working with data. " O'Reilly Media, Inc.".
