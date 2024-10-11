@@ -54,7 +54,7 @@ Se presentan algunas de las gráficas obtenidas, así como la tabla final de los
  
 ### Gráfico 1: Velocidad versus tiempo con regresiones lineales por tramo y área total
 <p>
-  <img src="imagenes/grafico1.png" width="800">
+  <img src="imagenes/grafico1.png" width="700">
 </p>
 <br>
   
