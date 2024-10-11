@@ -22,14 +22,14 @@ Este proyecto se centra en el analisis del registro audiovisual experimental, el
 
 1. Clonar el repositorio desde GitHub:
 
-   ```bash
-   git clone https://github.com/Nicole-lq/2DMotion_NLQ.git
-   ```
+```bash
+git clone https://github.com/Nicole-lq/2DMotion_NLQ.git
+```
 2. Navegar al directorio del proyecto:
 
-   ```bash
-   cd 2DMotion_NLQ
-   ```
+```bash
+cd 2DMotion_NLQ
+```
 
 3. Abrir el proyecto en Visual Studio Code
    
