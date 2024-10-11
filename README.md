@@ -46,16 +46,27 @@ El análisis de gráficos incluye:
 
 Se presentan algunas de las gráficas obtenidas, así como la tabla final de los datos obtenidos. Para mayor detalle se suguiere revisar el informe y/o el código presentado.
 
-### Grafica 1
-![Regresiones Lineales por tramo y área total](imagenes/grafico1.png)
+<div align="center">
+  
+### Gráfico 1: Regresiones lineales por tramo y área total
+<p>
+  <img src="imagenes/grafico1.png" width="900">
+</p>
+</p>
+  
+### Gráfico 1: Regresiones lineales por tramo y área total
+<p>
+  <img src="imagenes/imagenes/grafico2.png" width="900">
+</p>
+</p>
+  
+### Gráfico 1: Regresiones lineales por tramo y área total
+<p>
+  <img src="imagenes/imagenes/TablaFinal.png" width="900">
+</p>
+</p>
 
-### Grafica 2
-![Áreas por intervalo](imagenes/grafico2.png)
-*Área de cada intervalo*
-
-### Tabla de síntesis
-![Tabla de final](imagenes/TablaFinal.png)
-
+</div>
 
 ## Resultados Principales
 
