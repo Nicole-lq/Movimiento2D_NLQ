@@ -2,8 +2,9 @@
   
 # ESTUDIO DEL MOVIMIENTO EN DOS DIMENSIONES: ANÁLISIS DE GRÁFICOS USANDO PYTHON
 <p>
-  <img src="imagenes/video.png" width="600">
+  <img src="imagenes/video.png" width="500">
 </p>
+<br> 
 
 </div>
 
@@ -47,23 +48,23 @@ El análisis de gráficos incluye:
 Se presentan algunas de las gráficas obtenidas, así como la tabla final de los datos obtenidos. Para mayor detalle se suguiere revisar el informe y/o el código presentado.
 
 <div align="center">
-
-<br>  
+<br> 
+ 
 ### Gráfico 1: Velocidad versus tiempo con regresiones lineales por tramo y área total
 <p>
-  <img src="imagenes/grafico1.png" width="900">
+  <img src="imagenes/grafico1.png" width="800">
 </p>
 <br>
   
 ### Gráfico 2: Velocidad versus tiempo por tramo con áreas y R²
 <p>
-  <img src="imagenes/grafico2.png" width="900">
+  <img src="imagenes/grafico2.png" width="800">
 </p>
 <br>
   
 ### Tabla: Síntesis final de los resultados por tramo
 <p>
-  <img src="imagenes/TablaFinal.png" width="900">
+  <img src="imagenes/TablaFinal.png" width="800">
 </p>
 <br>
 
