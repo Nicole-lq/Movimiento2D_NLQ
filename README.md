@@ -1,6 +1,6 @@
-
+<div align="center">
+  
 # ESTUDIO DEL MOVIMIENTO EN DOS DIMENSIONES: ANÁLISIS DE GRÁFICOS USANDO PYTHON
-
 <p>
   <img src="imagenes/video.png" width="600">
 </p>
@@ -46,17 +46,18 @@ El análisis de gráficos incluye:
 
 ## Visualizaciones
 
-Aquí se presentan gráficos que ilustran las áreas bajo la curva y las regresiones lineales para cada intervalo.
+Se presentan algunas de las gráficas obtenidas, así como la tabla final de los datos obtenidos. Para mayor detalle se suguiere revisar el informe y/o el código presentado.
 
+### Grafica 1
 ![Regresiones Lineales por tramo y área total](imagenes/grafico1.png)
-*Regresiones lineales por tramo y área total*
 
+### Grafica 2
 ![Áreas por intervalo](imagenes/grafico2.png)
 *Área de cada intervalo*
 
-
+### Tabla de síntesis
 ![Tabla de final](imagenes/TablaFinal.png)
-*Síntesis final de los datos*
+
 
 ## Resultados Principales
 
@@ -69,7 +70,7 @@ Los gráficos son herramientas esenciales para el análisis de datos en física,
 
 La utilización de Python demostró ser práctica y eficiente para este proyecto. Su capacidad para procesar datos, generar gráficos y aplicar métodos numéricos facilita el estudio de fenómenos físicos complejos. Python no solo automatiza el procesamiento de datos, sino que también permite integrar metodologías avanzadas, convirtiéndolo en una herramienta valiosa para investigaciones científicas.
 
-**Referencias**
+## Referencias
 
 * Gonzáles, J. Guía experimental. Universidad Andrés Bello, Santiago, Chile.
 * Gonzáles, J. Análisis gráfico. Universidad Andrés Bello, Santiago, Chile.
