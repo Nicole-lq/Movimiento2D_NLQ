@@ -48,21 +48,21 @@ Se presentan algunas de las gráficas obtenidas, así como la tabla final de los
 
 <div align="center">
   
-### Gráfico 1: Regresiones lineales por tramo y área total
+### Gráfico 1: Velocidad versus tiempo, con regresiones lineales por tramo y área total
 <p>
   <img src="imagenes/grafico1.png" width="900">
 </p>
 </p>
   
-### Gráfico 1: Regresiones lineales por tramo y área total
+### Gráfico 2: Velocidad versus tiempo por tramo, con áreas y R²
 <p>
-  <img src="imagenes/imagenes/grafico2.png" width="900">
+  <img src="imagenes/grafico2.png" width="900">
 </p>
 </p>
   
-### Gráfico 1: Regresiones lineales por tramo y área total
+### Tabla: Síntesis final de los resultados por tramo
 <p>
-  <img src="imagenes/imagenes/TablaFinal.png" width="900">
+  <img src="imagenes/TablaFinal.png" width="900">
 </p>
 </p>
 
