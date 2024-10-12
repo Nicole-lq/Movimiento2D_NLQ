@@ -1,6 +1,6 @@
 <div align="center">
   
-# ESTUDIO DEL MOVIMIENTO EN DOS DIMENSIONES: ANÁLISIS DE GRÁFICOS USANDO PYTHON
+# Estudio del movimiento en dos dimensiones
 <p>
   <img src="imagenes/video.png" width="500">
 </p>
