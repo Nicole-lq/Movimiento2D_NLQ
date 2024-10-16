@@ -1,6 +1,6 @@
 <div align="center">
   
-# Estudio del movimiento en dos dimensiones
+# Study of Two-Dimensional Motion
 <p>
   <img src="imagenes/video.png" width="500">
 </p>
@@ -8,63 +8,59 @@
 
 </div>
 
-## Resumen
+## Summary
 
-Este proyecto se centra en el analisis del registro audiovisual experimental, el cual presenta la velocidad y tiempo instantáneo de un motociclista miemtras circula por una carretera. El proceso se realiza mediante la **captura automatizada de cuadros** cada dos segundos, en un rango de 9 [s] a 133 [s] (ambos inclusive), utilizando Python en Visual Studio Code, mientras que el estudio se lleva a cabo dividiendo los datos en diez intervalos de tiempo, realizando ajustes lineales mediante el método de los mínimos cuadrados, calculando la velocidad media para cada intervalo, y aproximando el área bajo la curva utilizando el método de los trapecios mediante la función `trapz`. Los resultados indican un recorrido total de 2355.9 metros, con un patrón cíclico de un intervalo de tiempo por medio, en el que su aceleración pasaba de ser aproximadamente constante, a cero.
+This project focuses on the analysis of experimental audiovisual recordings, which present the instantaneous speed and time of a motorcyclist as they travel on a road. The process is carried out through **automated frame capture** every two seconds, within a range from 9 [s] to 133 [s] (both inclusive), using Python in Visual Studio Code. The study is conducted by dividing the data into ten time intervals, performing linear fits using the least squares method, calculating the average speed for each interval, and approximating the area under the curve using the trapezoidal method through the `trapz` function. The results indicate a total distance of 2355.9 meters, with a cyclical pattern occurring in every other time interval, where the acceleration alternates between being approximately constant and zero.
 
-
-## Tecnologías Utilizadas
+## Technologies Used
 
 - **Python**
 - **Visual Studio Code**
-- **Bibliotecas de Python**: `Matplotlib`, `Numpy`, `Pandas`, `SciPy`, `Scikit-learn`
+- **Python Libraries**: `Matplotlib`, `Numpy`, `Pandas`, `SciPy`, `Scikit-learn`
 - **GitHub Repository**: [2DMotion_NLQ](https://github.com/Nicole-lq/2DMotion_NLQ)
 
+## Instructions to Clone the Repository
 
-## Instrucciones para Clonar el Repositorio
-
-1. Clonar el repositorio desde GitHub:
+1. Clone the repository from GitHub:
 
 ```bash
 git clone https://github.com/Nicole-lq/2DMotion_NLQ.git
 ```
-2. Navegar al directorio del proyecto:
+2. Navigate to the project directory:
 
 ```bash
 cd 2DMotion_NLQ
 ```
+3. Open the project in Visual Studio Code.
 
-3. Abrir el proyecto en Visual Studio Code
+## Analysis Methods
 
+The graphical analysis includes:
 
-## Métodos de Análisis
+* Scatter plots of speed and time data.
+* Linear fitting by intervals using the least squares method.
+* Calculation of areas under the curve using the trapezoidal method with the `trapz` function.
 
-El análisis de gráficos incluye:
+## Visualizations
 
-* Gráficos de dispersión de los datos de velocidad y tiempo.
-* Ajuste lineal por intervalos utilizando el método de los mínimos cuadrados.
-* Cálculo de áreas bajo la curva con el método del trapecio utilizando la función trapz.
-  
-## Visualizaciones
-
-Se presentan algunas de las gráficas obtenidas, así como la tabla final de los datos obtenidos. Para mayor detalle se suguiere revisar el informe y/o el código presentado.
+Some of the obtained graphs are presented, along with the final table of the results. For further details, it is recommended to review the report and/or the provided code.
 
 <div align="center">
 <br> 
  
-### Gráfico 1: Velocidad versus tiempo con regresiones lineales por tramo y área total
+### Graph 1: Speed versus time with linear regressions per segment and total area
 <p>
   <img src="imagenes/grafico1.png" width="700">
 </p>
 <br>
   
-### Gráfico 2: Velocidad versus tiempo por tramo con áreas y R²
+### Graph 2: Speed versus time per segment with areas and R²
 <p>
   <img src="imagenes/grafico2.png" width="800">
 </p>
 <br>
   
-### Tabla: Síntesis final de los resultados por tramo
+### Table: Final summary of results per segment
 <p>
   <img src="imagenes/TablaFinal.png" width="800">
 </p>
@@ -75,23 +71,23 @@ Se presentan algunas de las gráficas obtenidas, así como la tabla final de los
 <div>
 <p style="text-align: justify;">
   
-## Resultados Principales
+## Main Results
 
-* El motociclista recorrió un total de 2355.9 metros.
-* Se observó un patrón cíclico de aceleración, donde en un intervalo la aceleración es constante, mientras que en el siguiente la aceleración es cero.
+* The motorcyclist traveled a total of 2355.9 meters.
+* A cyclical acceleration pattern was observed, where acceleration is constant in one interval and zero in the next.
 
+## Conclusions
 
-## Conclusiones
+Graphs are essential tools for data analysis in physics, requiring proper construction and interpretation. Although the overall graph did not follow the laws of uniformly accelerated motion (UAM), the linear fits allowed for approximations of speed and acceleration, achieving the project’s objectives.
 
-Los gráficos son herramientas esenciales para el análisis de datos en física, requiriendo una confección e interpretación adecuadas. A pesar de que la gráfica general no obedecía a un MRUA, los ajustes lineales permitieron aproximar la velocidad y aceleración, cumpliendo con los objetivos planteados.
+The use of Python proved to be practical and efficient for this project. Its ability to process data, generate graphs, and apply numerical methods facilitates the study of complex physical phenomena. Python not only automates data processing but also enables the integration of advanced methodologies, making it a valuable tool for scientific research.
 
-La utilización de Python demostró ser práctica y eficiente para este proyecto. Su capacidad para procesar datos, generar gráficos y aplicar métodos numéricos facilita el estudio de fenómenos físicos complejos. Python no solo automatiza el procesamiento de datos, sino que también permite integrar metodologías avanzadas, convirtiéndolo en una herramienta valiosa para investigaciones científicas.
+## References
 
-
-## Referencias
-
-* Gonzáles, J. Guía experimental. Universidad Andrés Bello, Santiago, Chile.
-* VanderPlas, J. (2016). Python data science handbook: Essential tools for working with data. " O'Reilly Media, Inc.".
+* González, J. Experimental Guide. Universidad Andrés Bello, Santiago, Chile.
+* VanderPlas, J. (2016). Python Data Science Handbook: Essential Tools for Working with Data. "O'Reilly Media, Inc.".
 
 </p>
 </div>
+
+
