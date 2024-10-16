@@ -90,4 +90,4 @@ The use of Python proved to be practical and efficient for this project. Its abi
 </p>
 </div>
 
-
+**_The code is originally in spanish but I´ll upload an english version soon._**
